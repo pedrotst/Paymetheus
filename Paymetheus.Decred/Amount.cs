@@ -19,6 +19,7 @@ namespace Paymetheus.Decred
         public static implicit operator long(Amount amount) => amount.val;
 
         public override string ToString() => Denomination.Decred.FormatAmount(this);
+        public Double ToDouble() => Denomination.Decred.DoubleFromAmount(this);
     }
 
     public struct Denomination

@@ -73,6 +73,58 @@ namespace Paymetheus.ViewModels
 
         public ObservableCollection<HistoryItem> Transactions { get; } = new ObservableCollection<HistoryItem>();
 
+        public void SortTransactionsByDate(bool asc)
+        {
+            ObservableCollection<HistoryItem> transactions;
+            if(asc)
+                transactions = new ObservableCollection<HistoryItem>(Transactions.OrderBy(hist => hist.Transaction.LocalSeenTime));
+            else
+                transactions = new ObservableCollection<HistoryItem>(Transactions.OrderByDescending(hist => hist.Transaction.LocalSeenTime));
+            Transactions.Clear();
+            PopulateTransactions(transactions);
+        }
+
+        public void SortTransactionsByHashCode(bool asc)
+        {
+            ObservableCollection<HistoryItem> transactions;
+            if(asc)
+                transactions = new ObservableCollection<HistoryItem>(Transactions.OrderBy(hist => hist.Transaction.GetHashCode()));
+            else
+                transactions = new ObservableCollection<HistoryItem>(Transactions.OrderByDescending(hist => hist.Transaction.GetHashCode()));
+            Transactions.Clear();
+            PopulateTransactions(transactions);
+        }
+
+        public void SortTransactionsByDebitCredit(bool asc)
+        {
+            ObservableCollection<HistoryItem> transactions;
+            if(asc)
+                transactions = new ObservableCollection<HistoryItem>(Transactions.OrderBy(hist => hist.AccountDebitCredit.ToDouble()));
+            else
+                transactions = new ObservableCollection<HistoryItem>(Transactions.OrderByDescending(hist => hist.AccountDebitCredit.ToDouble()));
+            Transactions.Clear();
+            PopulateTransactions(transactions);
+        }
+
+        public void SortTransactionsByBalance(bool asc)
+        {
+            ObservableCollection<HistoryItem> transactions;
+            if(asc)
+                transactions = new ObservableCollection<HistoryItem>(Transactions.OrderBy(hist => hist.RunningBalance.ToDouble()));
+            else
+                transactions = new ObservableCollection<HistoryItem>(Transactions.OrderByDescending(hist => hist.RunningBalance.ToDouble()));
+            Transactions.Clear();
+            PopulateTransactions(transactions);
+        }
+
+        private void PopulateTransactions(ObservableCollection<HistoryItem> transactions)
+        {
+            foreach (var histItem in transactions)
+            {
+                Application.Current.Dispatcher.Invoke(() => Transactions.Add(histItem));
+            }
+        }
+
         // TODO: Figure out what to do with exceptions.  another message box?
         private async Task PopulateHistoryAsync(Account account)
         {

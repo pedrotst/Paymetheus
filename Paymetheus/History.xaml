@@ -156,7 +156,7 @@
                           ItemsSource="{Binding Source={StaticResource ViewModelLocator}, Path=SynchronizerViewModel.Accounts}"
                           SelectedItem="{Binding SelectedAccount}"
                           ItemTemplate="{StaticResource ComboBoxAccountDataTemplate}"
-                          Style="{DynamicResource ComboBoxStyleWithCurrency}" ItemContainerStyle="{DynamicResource ComboBoxItemStyle}" Foreground="#FF2970FF">
+                          Style="{DynamicResource ComboBoxStyleWithCurrency}" ItemContainerStyle="{DynamicResource ComboBoxItemStyle}" Foreground="#FF2970FF" SelectionChanged="ComboBox_SelectionChanged">
                 </ComboBox>
             </Grid>
         </Border>
@@ -203,10 +203,13 @@
                         <Setter Property="FontWeight" Value="Bold"/>
                     </Style>
                 </Grid.Resources>
-                <TextBlock Grid.Column="0" Text="Date"/>
-                <TextBlock Grid.Column="1" Text="Transaction hash"/>
-                <TextBlock Grid.Column="2" TextAlignment="Right" Text="Debit/Credit" />
-                <TextBlock Grid.Column="3" TextAlignment="Right" Text="Balance"/>
+                <TextBlock MouseLeftButtonUp="TextBlockDate_MouseLeftButtonUp" Grid.Column="0" Text="Date" />
+                <TextBlock MouseLeftButtonUp="TextBlockHashCode_MouseLeftButtonUp" Grid.Column="1" Text="Transaction hash"/>
+                <TextBlock MouseLeftButtonUp="TextBlockDebitCredit" Grid.Column="2" TextAlignment="Right" Text="Debit/Credit" />
+                <TextBlock MouseLeftButtonUp="TextBlockBalance_MouseLeftButtonUp" Grid.Column="3" TextAlignment="Right" Text="Balance"/>
+                <Path x:Name="SortArrow" Stretch="Fill" Data="M0,0 L1,0 0.5,1 z"
+                            Grid.Column="0" Width="8" Height="6" Fill="White" Margin="35,0,12,0" 
+                            VerticalAlignment="Center" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.4" />
             </Grid>
 
             <ListBox Grid.Row="1" ItemsSource="{Binding Transactions}"
